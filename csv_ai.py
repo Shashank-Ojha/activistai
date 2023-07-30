@@ -26,15 +26,15 @@ tools = [
         func=PythonREPLTool(),
         description="A tool for running python code in a REPL."
     ),
-    Tool(
-        name = "AST REPL",
-        func=PythonAstREPLTool(),
-        description="A tool for running python code in a REPL."
-    ),
+    # Tool(
+    #     name = "AST REPL",
+    #     func=PythonAstREPLTool(),
+    #     description="A tool for running python code in a REPL."
+    # ),
 ]
 
 
 df = pd.read_csv(traffic_crashes_url)
 agent = create_pandas_dataframe_agent(ChatAnthropic(model='claude-2', temperature=1), df, tool=tools, verbose=True, agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,)
-agent.run("Which year and month did we have the most accident.")
+agent.run("Which year and month did we have the most accidents?")
 
