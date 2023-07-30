@@ -47,10 +47,14 @@ def plot_key_words(word_counts):
   plt.show()
   return keywords
 
-keywords = extract_key_words(doc)
-word_counts = {}
-for word in keywords:
-  word_counts[word] = 1
+def main():
+  keywords = extract_key_words(doc)
+  word_counts = {}
+  for word in keywords:
+    word_counts[word] = 1
 
-print(keywords)
-plot_key_words(word_counts)
+  print(keywords)
+  plot_key_words(word_counts)
+
+if __name__ == "__main__":
+  main()
