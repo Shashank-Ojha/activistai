@@ -3,25 +3,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import threading
 import time
+import pickle
+import keywords_util
+import os
 
 title = "Title"
 
-def thread_1():                     
-  for i in range(5):
-    global title
-    title = f"this is thread {i}"
-    st.experimental_rerun()
-    time.sleep(3)
+keyword_counts = {}
+# Load Pickle File
+if os.path.isfile('counts.pkl'):
+  with open('counts.pkl', 'rb') as file:
+    keyword_counts = pickle.load(file)
 
-# creating a thread
-T = threading.Thread(target = thread_1)
- 
-# change T to daemon
-T.setDaemon(True) 
+plt = keywords_util.plot_key_words(keyword_counts)
 
-arr = np.random.normal(1, 1, size=100)
-fig, ax = plt.subplots()
-ax.hist(arr, bins=20)
-ax.set_title('Histogram')
-
-st.pyplot(fig)
+st.pyplot(plt)

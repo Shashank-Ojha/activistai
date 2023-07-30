@@ -32,7 +32,7 @@ def extract_key_words(doc):
       )
   ]
 
-  keywords = (chat(messages).content).split(", ")
+  keywords = (chat(messages).content).split(",")
   return keywords
 
 
@@ -44,8 +44,8 @@ def plot_key_words(word_counts):
   plt.title('Word Frequency')
   plt.xticks(rotation=45)
   plt.tight_layout()  # To prevent labels from being cut off
-  plt.show()
-  return keywords
+  # plt.show()
+  return plt
 
 def main():
   keywords = extract_key_words(doc)

@@ -3,8 +3,9 @@ from streamlit_chat import message
 
 import time
 import activist_ai as act
-
-
+import keywords_util
+import pickle
+import os
 
 # Setting page title and header
 st.set_page_config(page_title="Activist AI", page_icon=":robot_face:")
@@ -31,18 +32,29 @@ clear_button = st.sidebar.button("Clear Conversation", key="clear")
 # st_callback = CustomStreamlitCallbackHandler() if verbose else None
 
 if 'query_fn' not in st.session_state:
-    st.session_state['query_fn'] = None
+    st.session_state['query_fn'] = act.query_fn()
 
 if submit_button:
-    # st.session_state['saved_verbose'] = verbose
+    email_text = "Traffic light accidents are horrible."
+    keywords = keywords_util.extract_key_words(email_text)
 
-    loading_placeholder.text("Fetching personal agent for this task...")
-    st.session_state['query_fn'] = act.query_fn()
-    loading_placeholder.text("Assistant is ready for service!")
-    time.sleep(0.5)
-    loading_placeholder.empty()
+    keyword_counts = {}
+    # Load Pickle File
+    if os.path.isfile('counts.pkl'):
+      with open('counts.pkl', 'rb') as file:
+        keyword_counts = pickle.load(file)
 
-    st.session_state.messages = []
+    for kw in keywords:
+        key = kw.strip().lower()
+        if key in keyword_counts:
+            keyword_counts[key] += 1
+        else:
+            keyword_counts[key] = 1
+
+    # Save Pickle File
+    with open('counts.pkl', 'wb') as file:
+      pickle.dump(keyword_counts, file, protocol=pickle.HIGHEST_PROTOCOL)
+
 
 if clear_button:
     # Clear history.
