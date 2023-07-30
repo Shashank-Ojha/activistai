@@ -35,8 +35,7 @@ agent_chain = initialize_agent(tools,
                                verbose=True,
                                memory=memory)
 
-
 def query_fn():
-    def f(prompt):
+    def research_bot(prompt):
         return agent_chain.run(input=prompt)
-    return f
+    return research_bot
