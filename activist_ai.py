@@ -81,6 +81,17 @@ def should_use_data(prompt):
   return llm(messages).content.strip() == "True"
 
 
+def normal_chat(prompt):
+  messages = [
+      HumanMessage(
+          content=f"""
+          {prompt}
+          """
+      )
+  ]
+
+  return llm(messages).content
+
 def query_fn():
     def bot(prompt):
         if should_use_data(prompt):
@@ -90,3 +101,6 @@ def query_fn():
         return internet_chain.run(input=prompt)
     
     return bot
+
+def claude_chat(prompt):
+    return normal_chat(prompt)
